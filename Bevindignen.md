@@ -9,3 +9,7 @@ Test IMDB project voor pollora. Het doel is het controle project (sage) namaken,
 4. Geen acf composer. Dus geen LemonJuice.
 
 5. usermeta inplaats van acfveld
+
+6. Je moet thumbnail expliciet aanzetten per post. (hoeze?!)
+
+7. Gebruikers staan los van de User modal. (Laravel artifect)
