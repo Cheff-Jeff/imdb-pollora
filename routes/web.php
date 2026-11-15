@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,13 @@ use Illuminate\Support\Facades\Route;
  * Use Route::wp() only when a request needs controller logic, middleware or a
  * named route.
  */
+
+Route::group(['prefix' => 'account',], function () {
+    Route::get('/sign-up', [UserController::class, 'signUp'])->name('account.sign-up');
+    Route::post('/sign-up', [UserController::class, 'createUser'])->name('account.create-account');
+
+    Route::get('/sign-in', [UserController::class, 'signIn'])->name('account.sign-in');
+    Route::post('/sign-in', [UserController::class, 'authenticate'])->name('account.authenticate');
+
+    Route::get('/', [UserController::class, 'account'])->name('account');
+});
