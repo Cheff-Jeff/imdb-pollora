@@ -63,6 +63,41 @@ class UserController extends Controller
         }
     }
 
+    public function handleSaveMovie(Request $request)
+    {
+        if (!is_user_logged_in()) {
+            return back();
+        }
+
+        if (!$request->isMethod('post')) {
+            return back();
+        }
+
+        if (!$request->has('movie')) {
+            return back();
+        }
+
+        $user = wp_get_current_user();
+        $userMeta = get_user_meta($user->ID, 'movies', true) ?: [];
+        $movieId = intval($request->input(['movie']));
+
+        if (count($userMeta) === 0) {
+            update_user_meta($user->ID, 'movies', [$movieId]);
+            return back();
+        }
+
+        if (in_array($request->input(['movie']), $userMeta)) {
+            $filterMeta = array_values(array_filter(array_map('intval', $userMeta), fn($id) => $id !== $movieId));
+
+            update_user_meta($user->ID, 'movies', $filterMeta);
+        } else {
+            $userMeta[] = $movieId;
+            update_user_meta($user->ID, 'movies', $userMeta);
+        }
+
+        return back();
+    }
+
     public function signUp()
     {
         return view('sign-up');
@@ -79,6 +114,8 @@ class UserController extends Controller
             return redirect()->route('account.sign-in');
         }
 
-        return view('account');
+        $user = wp_get_current_user();
+        $userMeta = get_user_meta($user->ID, 'movies', true) ?: [];
+        return view('account', ['movies' => $userMeta]);
     }
 }

@@ -37,3 +37,5 @@ Route::group(['prefix' => 'account',], function () {
 
     Route::get('/', [UserController::class, 'account'])->name('account');
 });
+
+Route::post('/store-movie', [UserController::class, 'handleSaveMovie'])->name('store-movie');
