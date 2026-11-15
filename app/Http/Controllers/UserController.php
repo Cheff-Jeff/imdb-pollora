@@ -118,4 +118,14 @@ class UserController extends Controller
         $userMeta = get_user_meta($user->ID, 'movies', true) ?: [];
         return view('account', ['movies' => $userMeta]);
     }
+
+    public function signOff()
+    {
+        if (!is_user_logged_in()) {
+            return redirect()->route('account.sign-in');
+        }
+
+        wp_logout();
+        return redirect()->route('account.sign-in');
+    }
 }

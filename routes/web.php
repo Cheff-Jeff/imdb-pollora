@@ -36,6 +36,7 @@ Route::group(['prefix' => 'account',], function () {
     Route::post('/sign-in', [UserController::class, 'authenticate'])->name('account.authenticate');
 
     Route::get('/', [UserController::class, 'account'])->name('account');
+    Route::get('/sign-off', [UserController::class, 'signOff'])->name('sign-off');
 });
 
 Route::post('/store-movie', [UserController::class, 'handleSaveMovie'])->name('store-movie');
